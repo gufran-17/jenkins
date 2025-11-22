@@ -3,40 +3,41 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
+        stage('Checkout from GitHub') {
             steps {
-                echo "Pulling latest code from repository..."
-                checkout scm
+                echo "Cloning repository: https://github.com/gufran-17/jenkins.git"
+                
+                git branch: 'main',
+                    url: 'https://github.com/gufran-17/jenkins.git'
             }
         }
 
-        stage('Validate HTML') {
+        stage('Validate HTML File') {
             steps {
-                echo "Checking if index.html exists"
+                echo "Checking if index.html exists..."
                 sh '''
                     if [ ! -f index.html ]; then
-                        echo "Error: index.html not found!"
+                        echo "❌ ERROR: index.html not found!"
                         exit 1
                     fi
-                    echo "index.html found."
+                    echo "✔ index.html found."
                 '''
             }
         }
 
-        stage('Archive Build Files') {
+        stage('Archive Files') {
             steps {
                 echo "Archiving website files..."
                 archiveArtifacts artifacts: 'index.html', fingerprint: true
             }
         }
 
-        stage('Deploy') {
+        stage('Deploy to Web Server') {
             steps {
-                echo "Deploying index.html to web server..."
+                echo "Deploying index.html to /var/www/html/..."
                 sh '''
-                    # Change destination path according to your server
                     sudo cp index.html /var/www/html/index.html
-                    echo "Deployment complete!"
+                    echo "✔ Deployment completed successfully!"
                 '''
             }
         }
@@ -44,10 +45,10 @@ pipeline {
 
     post {
         success {
-            echo "Pipeline executed successfully!"
+            echo "🎉 Pipeline completed successfully!"
         }
         failure {
-            echo "Pipeline failed. Check logs."
+            echo "❌ Pipeline failed. Check the logs."
         }
     }
 }
