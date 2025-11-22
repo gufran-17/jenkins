@@ -1,72 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jenkins Home Page</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nginx Server</title>
+
     <style>
         body {
-            font-family: Arial, Helvetica, sans-serif;
             margin: 0;
-            background: #f1f5f9;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
         }
-        header {
-            background: #0A74DA;
-            padding: 20px;
-            color: white;
+        .header {
+            background: #0ea5e9;
+            padding: 40px 20px;
             text-align: center;
+            color: white;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.4rem;
         }
         .container {
-            padding: 25px;
+            max-width: 900px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0px 0px 20px #0000001a;
         }
         h2 {
-            color: #0A74DA;
+            color: #0ea5e9;
         }
-        .card {
-            background: white;
-            padding: 20px;
-            margin-top: 15px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px #00000020;
+        p {
+            font-size: 1.1rem;
+            color: #374151;
+            line-height: 1.6;
         }
-        a {
-            text-decoration: none;
-            color: #0A74DA;
-            font-weight: bold;
+        .footer {
+            margin-top: 50px;
+            padding: 15px;
+            text-align: center;
+            background: #e2e8f0;
+            color: #475569;
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>Welcome to Jenkins</h1>
-    <p>Continuous Integration & Continuous Delivery Automation</p>
-</header>
-
-<div class="container">
-    <div class="card">
-        <h2>About Jenkins</h2>
-        <p>Jenkins is an open-source automation tool used for building, testing, and deploying applications automatically.</p>
+    <div class="header">
+        <h1>Welcome to Your Nginx Server</h1>
+        <p>Successfully running and serving your custom web page</p>
     </div>
 
-    <div class="card">
-        <h2>Useful Jenkins Links</h2>
-        <ul>
-            <li><a href="/login">Login to Jenkins</a></li>
-            <li><a href="/job/">View All Jobs</a></li>
-            <li><a href="/manage">Manage Jenkins</a></li>
-            <li><a href="/computer">Build Nodes</a></li>
-        </ul>
+    <div class="container">
+        <h2>About This Server</h2>
+        <p>
+            This is a custom Nginx landing page.  
+            You can modify this file to host your own website, API, or project.
+        </p>
+
+        <h2>What You Can Do Next</h2>
+        <p>
+            ✔ Host HTML, CSS, JS websites<br>
+            ✔ Deploy applications using Jenkins, Docker, or CI/CD<br>
+            ✔ Serve static files easily using Nginx<br>
+        </p>
+
+        <h2>Server Info</h2>
+        <p>
+            You are viewing this page from the default Nginx web root:
+        </p>
+
+        <pre style="background:#f1f5f9;padding:15px;border-radius:8px;overflow:auto;">
+/var/www/html/index.html
+        </pre>
     </div>
 
-    <div class="card">
-        <h2>What You Can Do</h2>
-        <p>✔ Run CI/CD pipelines<br>
-           ✔ Automate builds<br>
-           ✔ Manage jobs<br>
-           ✔ Monitor build status</p>
+    <div class="footer">
+        © 2025 Your Nginx Custom Page
     </div>
-</div>
 
 </body>
 </html>
