@@ -5,24 +5,17 @@ pipeline {
 
         stage('Checkout Code') {
             steps {
-                echo "Pulling project code..."
-                checkout scm
+                echo "Pulling project from GitHub..."
+                git branch: 'main', url: 'https://github.com/gufran-17/jenkins.git'
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Deploy to Nginx') {
             steps {
-                echo "Building Docker image..."
-                sh 'docker build -t my-nginx-site:latest .'
-            }
-        }
-
-        stage('Run Container') {
-            steps {
-                echo "Running Nginx container..."
+                echo "Copying index.html to Nginx directory..."
                 sh '''
-                    docker rm -f my-nginx-container || true
-                    docker run -d -p 80:80 --name my-nginx-container my-nginx-site:latest
+                    sudo cp index.html /var/www/html/index.html
+                    sudo systemctl restart nginx
                 '''
             }
         }
@@ -31,10 +24,10 @@ pipeline {
 
     post {
         success {
-            echo "Deployment Successful!"
+            echo "Nginx page deployed successfully!"
         }
         failure {
-            echo "Pipeline Failed!"
+            echo "Pipeline failed!"
         }
     }
 }
