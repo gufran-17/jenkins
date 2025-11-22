@@ -1,0 +1,53 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                echo "Pulling latest code from repository..."
+                checkout scm
+            }
+        }
+
+        stage('Validate HTML') {
+            steps {
+                echo "Checking if index.html exists"
+                sh '''
+                    if [ ! -f index.html ]; then
+                        echo "Error: index.html not found!"
+                        exit 1
+                    fi
+                    echo "index.html found."
+                '''
+            }
+        }
+
+        stage('Archive Build Files') {
+            steps {
+                echo "Archiving website files..."
+                archiveArtifacts artifacts: 'index.html', fingerprint: true
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo "Deploying index.html to web server..."
+                sh '''
+                    # Change destination path according to your server
+                    sudo cp index.html /var/www/html/index.html
+                    echo "Deployment complete!"
+                '''
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "Pipeline executed successfully!"
+        }
+        failure {
+            echo "Pipeline failed. Check logs."
+        }
+    }
+}
