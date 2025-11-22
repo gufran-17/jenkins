@@ -3,52 +3,38 @@ pipeline {
 
     stages {
 
-        stage('Checkout from GitHub') {
+        stage('Checkout Code') {
             steps {
-                echo "Cloning repository: https://github.com/gufran-17/jenkins.git"
-                
-                git branch: 'main',
-                    url: 'https://github.com/gufran-17/jenkins.git'
+                echo "Pulling project code..."
+                checkout scm
             }
         }
 
-        stage('Validate HTML File') {
+        stage('Build Docker Image') {
             steps {
-                echo "Checking if index.html exists..."
+                echo "Building Docker image..."
+                sh 'docker build -t my-nginx-site:latest .'
+            }
+        }
+
+        stage('Run Container') {
+            steps {
+                echo "Running Nginx container..."
                 sh '''
-                    if [ ! -f index.html ]; then
-                        echo "❌ ERROR: index.html not found!"
-                        exit 1
-                    fi
-                    echo "✔ index.html found."
+                    docker rm -f my-nginx-container || true
+                    docker run -d -p 80:80 --name my-nginx-container my-nginx-site:latest
                 '''
             }
         }
 
-        stage('Archive Files') {
-            steps {
-                echo "Archiving website files..."
-                archiveArtifacts artifacts: 'index.html', fingerprint: true
-            }
-        }
-
-        stage('Deploy to Web Server') {
-            steps {
-                echo "Deploying index.html to /var/www/html/..."
-                sh '''
-                    sudo cp index.html /var/www/html/index.html
-                    echo "✔ Deployment completed successfully!"
-                '''
-            }
-        }
     }
 
     post {
         success {
-            echo "🎉 Pipeline completed successfully!"
+            echo "Deployment Successful!"
         }
         failure {
-            echo "❌ Pipeline failed. Check the logs."
+            echo "Pipeline Failed!"
         }
     }
 }
