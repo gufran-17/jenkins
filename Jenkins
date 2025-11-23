@@ -5,29 +5,22 @@ pipeline {
 
         stage('Checkout Code') {
             steps {
-                echo "Pulling project from GitHub..."
-                git branch: 'main', url: 'https://github.com/gufran-17/jenkins.git'
+                git url: 'https://github.com/gufran-17/jenkins.git', branch: 'main'
             }
         }
 
         stage('Deploy to Nginx') {
             steps {
-                echo "Copying index.html to Nginx directory..."
                 sh '''
-                    sudo cp index.html /var/www/html/index.html
-                    sudo systemctl restart nginx
+                # Copy HTML file to nginx
+                sudo cp index.html /var/www/html/index.html
+
+                # Restart nginx
+                sudo systemctl restart nginx
+
+                echo "New page deployed successfully!"
                 '''
             }
-        }
-
-    }
-
-    post {
-        success {
-            echo "Nginx page deployed successfully!"
-        }
-        failure {
-            echo "Pipeline failed!"
         }
     }
 }
